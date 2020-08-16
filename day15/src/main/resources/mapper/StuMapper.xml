@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xiaoshu.dao.StuMapper">
+  <select id="findAll" parameterType="stuVo" resultType="stuVo">
+  	SELECT s.*,m.mdname mname FROM tb_major_day m,tb_stu_day s WHERE m.md_id=s.mid
+  	<if test="sdbirth1!=null">
+  		and s.sdbirth &gt;= #{sdbirth1}
+  	</if>
+  	<if test="sdbirth2!=null">
+  		and s.sdbirth &lt;= #{sdbirth2}
+  	</if>
+  	<if test="mid!=null and mid!=''">
+  		and s.mid = #{mid}
+  	</if>
+  	<if test="sdHobby!=null and sdHobby!=''">
+  		and s.sd_hobby like '%${sdHobby}%'
+  	</if>
+  </select>
+  <select id="findE" resultType="stuVo">
+  	SELECT m.mdname mname,COUNT(s.sd_id) num FROM tb_major_day m LEFT JOIN tb_stu_day s ON s.mid=m.md_id GROUP BY m.md_id
+  </select>
+</mapper>
